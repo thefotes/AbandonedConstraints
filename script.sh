@@ -1,16 +1,22 @@
 #!/bin/bash
 
-eval DIR="~/Desktop/test"
-eval asdf="~/Documents/TicketMaster/CoreApp-iOS"
+set -e
+
+eval DIR=$1
+
+if [ -z "$DIR" ]; then
+    echo "Invalid directory entered"
+    exit 1
+fi
 
 swiftc AbandonedConstraints/XMLParserDelegate.swift AbandonedConstraints/main.swift
 
-find "$asdf" \( -name '*.xib' -or -name '*.storyboard' \) | while read line; do
-    thing=$(./main $line)
-    if [ ! -z "$thing" ]; then
-        echo "Deleting $thing in $line"
+find "$DIR" \( -name '*.xib' -or -name '*.storyboard' \) | while read line; do
+    constraints=$(./main $line)
+    if [ ! -z "$constraints" ]; then
+        echo "Deleting $constraints in $line"
         IFS=","
-        for constraint in $thing; do
+        for constraint in $constraints; do
             sed -i '' /"$constraint"/d $line
         done
         printf "\n"
