@@ -40,8 +40,8 @@ final class XMLParserDelegate: NSObject, NSXMLParserDelegate {
         
         let excludedLessOutlets = excludedReferences.subtract(outlets)
         
-        for constraint in excludedLessOutlets {
-            print("\(constraint) is excluded but not deleted")
+        if excludedLessOutlets.count > 0 {
+            print(excludedLessOutlets.joinWithSeparator(","))
         }
     }
 }

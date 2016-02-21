@@ -5,8 +5,21 @@
 
 import Foundation
 
-let path = NSURL(fileURLWithPath: Process.arguments[1])
-let parser = NSXMLParser(contentsOfURL: path)
-let parserDelegate = XMLParserDelegate(fileName: path.absoluteString)
-parser?.delegate = parserDelegate
-parser?.parse()
+
+func findAbandonedConstraints() {
+    
+    let userPath = Process.arguments[1]
+    
+    if NSFileManager.defaultManager().fileExistsAtPath(userPath) {
+        let path = NSURL(fileURLWithPath: userPath)
+        guard let parser = NSXMLParser(contentsOfURL: path) else { return }
+        let parserDelegate = XMLParserDelegate(fileName: path.absoluteString)
+        parser.delegate = parserDelegate
+        parser.parse()
+    } else {
+        fputs("\(userPath) is invalid \n", __stderrp)
+    }
+}
+
+
+findAbandonedConstraints()
