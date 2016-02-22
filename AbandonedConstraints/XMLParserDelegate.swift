@@ -38,10 +38,10 @@ final class XMLParserDelegate: NSObject, NSXMLParserDelegate {
     
     func parserDidEndDocument(parser: NSXMLParser) {
         
-        let excludedLessOutlets = excludedReferences.subtract(outlets)
+        let excludedConstraintsLessOutlets = constraints.intersect(excludedReferences).subtract(outlets)
         
-        if excludedLessOutlets.count > 0 {
-            print(excludedLessOutlets.joinWithSeparator(","))
+        if excludedConstraintsLessOutlets.count > 0 {
+            print(excludedConstraintsLessOutlets.joinWithSeparator(","))
         }
     }
 }
